@@ -1,0 +1,27 @@
+shadow repo: system/libsysprop (target) — DATA-ONLY
+  upstream: system/libsysprop @ android-14.0.0_r67 (los-21 split tree, single
+    commit d1397c1 "Snap for 11432641")
+  api-level: 34 payload (branch 34-20261025, rolling 34)
+  provenance: DATA-ONLY shadow — no binaries, no makeapex build, zero blobs.
+    sysprop_library PlatformProperties is a pure-source module; soong codegen
+    (sysprop_cpp) regenerates in-tree at build time via aur/sysprop_cpp @ r67.
+  layout: upstream-mirrored — srcs/Android.bp is the ONLY Android.bp (no root
+    bp), srcs glob "**/*.sysprop" resolves against the same dir tree.
+  modules: sysprop_library PlatformProperties, srcs/Android.bp verbatim from
+    the los-21 split tree working copy (apex_available mirrors the split tree:
+    com.android.virt dropped vs upstream r67 — APEX absent from the split
+    tree; all other flags untouched: property_owner Platform, api_packages
+    android.sysprop, apex_available [platform, com.android.art,
+    com.android.art.debug, com.android.btservices, com.android.nfcservices,
+    com.android.media.swcodec, com.android.tethering, com.android.wifi],
+    cpp.min_sdk_version "S", vendor_available, host_supported).
+  payload: srcs/android/sysprop/ 26 *.sysprop files, byte-identical to los-21
+    (upstream srcs/android/sysprop/OWNERS excluded per staging rules) +
+    srcs/api/PlatformProperties-current.txt + PlatformProperties-latest.txt —
+    MANDATORY: soong check_api cmp is a ninja-time build action; missing/empty
+    dumps = exit 38 at compile. Do NOT repeat the init-shadow omission.
+  notes: dual-slice N/A (no host companion) — module is host_supported but the
+    host slice consumes the same srcs; nothing to shadow separately. Upstream
+    carries no local license module (tree-global Android-Apache-2.0) —
+    nothing added.
+  date: 2026-10-25
